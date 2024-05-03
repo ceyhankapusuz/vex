@@ -1,0 +1,76 @@
+/*
+Script:     snippets
+Version:    1.0
+Author:     Ceyhan Kapusuz  
+ver_3_3     27.09.2019
+
+
+//function   
+small reusable codes 
+//01_ceterPt > move pt (opin0) to center of bbox of (opin1)
+//02_tangentCalc > manual tangent calculation ~polyFrame
+//03_pinPt > selects points with only one neig
+
+*/
+
+//volumescolorAdd
+
+
+
+//01_ceterPt > move pt (opin0) to center of bbox of (opin1)
+@id = @ptnum;
+v@center = getbbox_center(1); 
+@P =@center;
+
+
+
+//02_tangentCalc > manual tangent calculation ~polyFrame
+i[]@neighs = neighbours(0,@ptnum);
+@N= normalize(point(0,"P", @neighs[1]) - point(0,"P", @neighs[0]));
+if (len(@neighs)==1)
+    @N= point(0,"N", @neighs[1]);
+
+
+
+//03_pinPt > selects points with only one neig
+if (neighbourcount(0, @ptnum)==1)
+    i@pin =1;
+
+//04_prim connect > two set of points 
+int npnt = addpoint(0, @opinput1_P);
+int nprim = addprim(0, "polyline");
+addvertex(0, nprim, @ptnum);
+addvertex(0, nprim, npnt);
+
+
+
+
+
+//06_remeshAdaptive
+//Use Cd.r for higher res. 
+//minFac/maxFac == resolution variance ratio
+float minMeshSize= chf("minMeshSize");
+float minFactor= chf("minFactor");
+float maxFactor= chf("maxFactor");
+@minmeshsize = minMeshSize ;
+@maxmeshsize = fit01( @Cd.r,(minMeshSize*maxFactor) ,(minMeshSize*minFactor));
+
+
+
+
+
+//groupExpressions> oneliners
+//endPoints of line
+neighbourcount(0, @ptnum)<2
+
+
+
+
+
+
+//shorts to rememmber>>
+`opinputpath("..", 0)`
+`opinput("..", 0)`
+`opinputs("..", 0)`
+`opname("..", 0)`
+
